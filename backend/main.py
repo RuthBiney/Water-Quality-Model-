@@ -2,15 +2,11 @@ from typing import Union
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pickle as pk
-import numpy as np 
-import pandas as pd 
-
-
+import numpy as np
+from sklearn.preprocessing import StandardScaler
 
 # Create a FastAPI app
 app = FastAPI()
-
-
 
 
 # Define a model class for the request body
@@ -35,29 +31,43 @@ async def index():
 
 @app.post("/water-quality")
 async def water_quality(request: WaterQualityRequest):
-    # Load the trained model
-    with open("water_quality_model.pkl", "rb") as file:
-        model = pk.load(file)
-        
-    # prepare the request data into a pandas data structure    
-    data = {
-        "ph": [request.ph],
-        "Hardness": [request.hardness],
-        "Solids": [request.solids],
-        "Chloramines": [request.chloramines],
-        "Sulfate": [request.sulfate],
-        "Conductivity": [request.conductivity],
-        "Organic_carbon": [request.organic_carbon],
-        "Trihalomethanes": [request.trihalomethanes],
-        "Turbidity": [request.turbidity]
-    }
-    df = pd.DataFrame(data)
-    
-    print("================================")
-    print(df)
-    
-    # Make a prediction using the loaded model
-    prediction = model.predict(df)[0][0]
+    try:
+        # Load the trained model
+        with open("./water_potability_model.pkl", "rb") as file:
+            model = pk.load(file)
 
-    
-    return {"prediction": int(prediction)}
+        # Prepare the request data and turn it into
+        data = [
+            [
+                request.ph,
+                request.hardness,
+                request.solids,
+                request.chloramines,
+                request.sulfate,
+                request.conductivity,
+                request.organic_carbon,
+                request.trihalomethanes,
+                request.turbidity,
+            ]
+        ]
+
+        # Standardize the features
+        scaler = StandardScaler()
+        data_scaled = scaler.fit_transform(data)
+
+        # Make a prediction
+        prediction = model.predict(data_scaled)
+        prediction = np.round(prediction).astype(int)
+        prediction = prediction[0][0]
+
+        # Convert the prediction to a string
+        # based on the prediction value
+        # if the prediction is 1, the water is potable; otherwise, it is not potable
+        if prediction == 1:
+            prediction = "Potable"
+        else:
+            prediction = "Not Potable"
+
+        return {"potability": prediction}
+    except Exception as e:
+        return {"error": str(e)}
