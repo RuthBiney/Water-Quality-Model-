@@ -8,6 +8,9 @@ from tensorflow.keras.regularizers import l1, l2
 from tensorflow.keras.callbacks import EarlyStopping
 import matplotlib.pyplot as plt
 import pickle as pk
+from sklearn.metrics import confusion_matrix, classification_report,precision_score, accuracy_score
+import seaborn as sns 
+
 
 
 # Load the dataset
@@ -80,6 +83,33 @@ test_loss = evaluation[0]
 test_accuracy = evaluation[1]
 
 print(f"Test Loss: {test_loss}, Test Accuracy: {test_accuracy}")
+
+
+# lets print the confusion matrix and classification report
+predictions = model.predict(testX)
+predictions = np.round(predictions)
+
+# classification report 
+print(classification_report(testY, predictions))
+print(confusion_matrix(testY, predictions))
+
+accuracy = accuracy_score(testY, predictions)
+print(f"Accuracy: {accuracy}")
+
+precision = precision_score(testY, predictions)
+print(f"Precision: {precision}")
+
+
+print("Confusion Matrix")
+cm = confusion_matrix(testY, predictions)
+plt.figure(figsize=(8, 6))
+sns.heatmap(cm, annot=True, cmap='Blues', fmt='g')
+plt.xlabel('Predictions')
+plt.ylabel('Actuals')
+plt.title('Confusion Matrix')
+plt.show()
+
+
 
 # Summary of the process and results
 # Plot training & validation loss values
