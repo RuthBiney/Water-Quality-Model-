@@ -81,6 +81,8 @@ async def water_quality(request: WaterQualityRequest):
 origins = [
     "http://localhost",
     "http://localhost:8080",
+    "https://water-quality-model-mgpf.onrender.com/",
+    
 ]
 
 app.add_middleware(
@@ -88,5 +90,5 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["*"],    
 )
