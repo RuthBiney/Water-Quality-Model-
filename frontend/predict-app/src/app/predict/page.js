@@ -2,6 +2,8 @@
 import { useState } from 'react'
 import Navbar1 from '@/components/navbar1'
 
+const url = ' http://127.0.0.1:8000/water-quality'
+
 
 export default function Predict() {
     const [formData, setFormData] = useState({
@@ -16,7 +18,6 @@ export default function Predict() {
         turbidity: 0
     })
     const [showPopup, setShowPopup] = useState(false);
-    const [predictionResult, setPredictionResult] = useState('');
     const [isPotable, setIsPotable] = useState("");
 
 
@@ -24,16 +25,27 @@ export default function Predict() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         // Perform prediction logic here
         console.log(formData)
 
-        setShowPopup(true);
+        // send the data to the url 
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        })
 
-        setPredictionResult(isPotable ? 'The water is potable.' : 'The water is not potable.');
+        // Display the prediction result
+        const data = await response.json()
+        if (data) {
+            setIsPotable(data.potability)
+            setShowPopup(true)
+        }
 
-        // Close the popup
     }
 
 
@@ -45,14 +57,14 @@ export default function Predict() {
             <div className="flex items-center justify-center min-h-screen">
                 <div className="bg-white rounded-lg shadow-lg p-6 max-w-md">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl text-black font-semibold">Prediction Result</h3>
+                        <h3 className="text-xl text-black text-center font-semibold">Prediction Result</h3>
                         <button
                             type="button"
                             onClick={onClose}
                             className="text-black  hover:text-gray-900 focus:outline-none"
                         >
                             <svg
-                                className="h-6 w-6"
+                                className="h-8 w-8"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -69,7 +81,7 @@ export default function Predict() {
                     <p className="text-gray-700">
                         {/* Display prediction result here */}
                         Based on the provided water quality parameters, the model
-                        predicts that the water is potable.
+                        predicts that the water is <b className={isPotable === "Potable" ? 'text-green-500' : 'text-red-500'}>{isPotable}</b>.
                     </p>
                 </div>
             </div>
@@ -174,7 +186,7 @@ export default function Predict() {
             </div>
 
             <div className="container flex flex-col px-6 py-10 mx-auto space-y-6 mb-1 lg:h-[32rem] lg:py-16 lg:flex-row lg:items-center">
-                <div className="flex items-center justify-center w-full h-96 lg:w-1/2">
+                <div className="flex mr-10 items-center justify-center w-full h-96 lg:w-1/2">
                     <img className="object-cover w-full h-full mx-auto rounded-md lg:max-w-2xl" src="https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?q=80&w=1406&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="glasses photo" />
                 </div>
                 <div className="w-full lg:w-1/2">
@@ -221,7 +233,7 @@ export default function Predict() {
             </div>
 
             <div className="container flex mt-1 flex-col px-6 py-10 mx-auto space-y-6  lg:py-16 lg:flex-row lg:items-center">
-                <div className="flex items-center justify-center w-full h-96 lg:w-1/2">
+                <div className="flex items-center justify-center w-full mr-10 h-96 lg:w-1/2">
                     <div>
                         <h1 className="text-3xl font-semibold tracking-wide text-gray-800 dark:text-white lg:text-4xl">Water Quality Prediction</h1>
                         <p className="mt-4 text-gray-600 dark:text-gray-300">
@@ -235,7 +247,6 @@ export default function Predict() {
                         </p>
                     </div>
                 </div>
-
 
                 <div className="w-full lg:w-1/2">
                     <div className="lg:max-w-lg">
