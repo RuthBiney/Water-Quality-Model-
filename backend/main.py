@@ -7,7 +7,6 @@ from sklearn.preprocessing import StandardScaler
 from fastapi.middleware.cors import CORSMiddleware
 
 
-
 # Create a FastAPI app
 app = FastAPI()
 
@@ -76,13 +75,11 @@ async def water_quality(request: WaterQualityRequest):
         return {"error": str(e)}
 
 
-
-
 origins = [
     "http://localhost",
     "http://localhost:8080",
     "https://water-quality-model-mgpf.onrender.com/",
-    
+    "http://localhost:3000",
 ]
 
 app.add_middleware(
@@ -90,5 +87,5 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],    
+    allow_headers=["*"],
 )
