@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import Navbar1 from '@/components/navbar1'
 
-const url = ' http://127.0.0.1:8000/water-quality'
+const url = 'https://water-quality-model-mgpf.onrender.com/water-quality'
 
 
 export default function Predict() {
