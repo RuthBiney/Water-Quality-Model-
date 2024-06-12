@@ -30,13 +30,111 @@ The data was collected from [here](https://github.com/MainakRepositor/Datasets/b
 
 Credits go to them.
 
-## Authors and contributors
-- Kayongo Johnson Brian - b.kayongo@alustudent.com - [Github Profile](https://github.com/kaybrian)
-- Joak Buoy Gai - b.joak@alustudent.com - [Github Pofile](github.com/joakbouy)
-- Ruth Senir Biney - r.biney@alustudent.com - [Github Profile](https://github.com/RuthBiney)
 
 
+# how to use the Repo
+The Project is Divided into `Backend` , `frontend` and `Model` 
+
+For the `Backend`, it contains the code `fastapi` server we are using
+
+For the `Frontend`, it contains the code `Nextjs` server we are using to interact with the backend that contains the model. 
+
+For the `Model`, it contains the code `Jupter Notebook` server we are using to build the  model and also make predictions for the model
+
+
+## Frontend Documentation
+The Project Documentation, OUr frontend is fully integrated and build with `Nextjs`
+
+### To get started, 
+
+1. Download the project
+```
+git clone https://github.com/RuthBiney/Water-Quality-Model-.git
+```
+
+2. Head the frontend folder and also get into the predict-app 
+```
+cd frontend
+
+
+then
+
+cd predict-app
+```
+3. Install the dependencies
+```
+npm install
+```
+4. run the server to start prediction and info about app 
+```
+npm run start 
+```
+
+
+## Backend Documentation
+The Project Documentation, Our backend is fully integrated and build with `fastapi`
+
+### To get started, 
+
+1. Download the project
+```
+git clone https://github.com/RuthBiney/Water-Quality-Model-.git
+```
+2. navigate to the backend
+```
+cd backend
+```
+3. create a new virtual environment
+```
+python -m venv <name of env> 
+
+eg. 
+python -m venv env
+```
+4. Install the dependencies needed for the virtual environment
+```
+pip install -r requirements.txt
+```
+5. Run the server to be able to interact with the server 
+```
+fastapi dev main.py
+```
+
+
+## Model
+Our model is a simple python code that using tensor and keras to build the model that is used to predict the water portability 
+
+### Getting started with the code. 
+To be able to run the model or work with the model
+
+1. Build a virtual env 
+```
+python -m venv env
+```
+2. install the dependencies
+```
+pip install -r requirements.txt
+```
+
+3. Run the model
+- You can run the model using the jupyter notebook with the name of `model.ipynb` 
+- Or you can choose to run the model using the scrip in the `water_quality_prediction.py`
+
+```
+To be able to run the code
+python water_quality_prediction.py
+```
 
 
 # Our Data and Model Explanation 
 [Explanations](https://github.com/RuthBiney/Water-Quality-Model-/blob/main/Group%201%20Model%20Evaluation%20.pdf)
+
+
+
+## Authors and contributors
+- Kayongo Johnson Brian - b.kayongo@alustudent.com - [Github Profile](https://github.com/kaybrian)
+- Joak Buoy Gai - b.joak@alustudent.com - [Github Pofile](github.com/joakbouy)
+- Ruth Senir Biney - r.biney@alustudent.com - [Github Profile](https://github.com/RuthBiney)
+- John Odai Obodai  
+
+
