@@ -38,4 +38,5 @@ Credits go to them.
 
 
 
-# our Data and Model Explanation 
+# Our Data and Model Explanation 
+[Explanations](https://github.com/RuthBiney/Water-Quality-Model-/blob/main/Group%201%20Model%20Evaluation%20.pdf)
